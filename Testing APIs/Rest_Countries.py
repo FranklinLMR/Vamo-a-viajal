@@ -57,4 +57,13 @@ CurrencyName= Country_data[0]["currencies"][CurrencyCode]["name"]
 
 # weather= requests.get(f"")
 
+import requests
+
+url = f"https://api.open-meteo.com/v1/forecast?latitude={Country_data[0]['latlng'][0]}&longitude={Country_data[0]['latlng'][1]}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&hourly=temperature_2m,wind_speed_10m,weather_code,precipitation_probability&current=temperature_2m,weather_code,wind_speed_10m"
+weather = requests.get(url)
+data = weather.json()
+
+current = data['current_weather']
+hourly = data['hourly']
+daily = data['daily']
 
