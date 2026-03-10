@@ -37,8 +37,8 @@ def main(page: ft.Page):
 #buttons in main page
 
     #blueContainerfor real
-    Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, )
-    Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION)
+    Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=700, height=50)
+    Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION,width=700, height=50)
 
     ColumnLeft = ft.Column(controls=[logo_image, Button1, Button2])
     ColumnRight = ft.Column(controls=[plane_image])
