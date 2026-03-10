@@ -4,7 +4,7 @@ import requests
 
 def main(page: ft.Page):
     
-    page.title= "Truth or Dare"
+    page.title= "flight"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.bgcolor = "#f3f7ff"
@@ -15,7 +15,7 @@ def main(page: ft.Page):
 
 
     plane_image= ft.Image(
-        src="assets/Plane.jpg", 
+        src="Plane.jpg", 
         visible=True, 
         top= 100,
         left= 600,
