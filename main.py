@@ -12,16 +12,20 @@ def main(page: ft.Page):
     page.theme = ft.Theme(font_family="Main")
     page.title= "Via Py"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+
     page.bgcolor = "#f3f7ff"
+    page.expand=True
     page.update()
 
 #main page image
     plane_image= ft.Image(
-        src="Plane.jpg", 
+        src="Plane2.jpg", 
         visible=True, 
-        # top= 100,
-        # left= 600
+        width=635,
+        height=544.5,
+        scale= 1.55 ,
+        expand=True
+        
         )
 
 #logo image
@@ -31,7 +35,8 @@ def main(page: ft.Page):
         # top = 35,
         # right = 700,
         width= 700,
-        height=400
+        height=400,
+        scale=0.8
     )
 
 #buttons in main page
@@ -40,10 +45,13 @@ def main(page: ft.Page):
     Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=700, height=50)
     Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION,width=700, height=50)
 
-    ColumnLeft = ft.Column(controls=[logo_image, Button1, Button2])
-    ColumnRight = ft.Column(controls=[plane_image])
+    ColumnLeft = ft.Column(controls=[logo_image, Button1, Button2]
+    )
+    ColumnRight = ft.Column(controls=[plane_image],
+                            alignment=ft.MainAxisAlignment.CENTER,
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
-    Whole_page= ft.Row(controls=[ColumnLeft, ColumnRight])
+    Whole_page= ft.Row(controls=[ColumnLeft, ColumnRight],spacing=180, expand= True)
     page.add(Whole_page)
 
     
