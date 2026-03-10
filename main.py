@@ -1,4 +1,5 @@
 import flet as ft
+import datetime
 import requests 
 
 
@@ -11,6 +12,12 @@ def main(page: ft.Page):
     page.update()
 
 
+    today = datetime.datetime.now()
+
+
+    d = ft.DatePicker(
+        first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1),
+        last_date=datetime.datetime(year=today.year + 1, month=today.month, day=20))
 
 
 
@@ -25,6 +32,9 @@ def main(page: ft.Page):
 
     Whole_page= ft.Stack([plane_image])
     page.add(Whole_page)
+
+
+
 
 ft.run(main, assets_dir="assets")    
 
