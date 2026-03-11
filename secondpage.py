@@ -43,13 +43,13 @@ def main(page: ft.Page):
     divide = ft.Container(bgcolor="#000000", height=500, width=2)
 
     column1 = ft.Column(controls=[ Flag,
-        ft.Container(height=20),
+        ft.Container(height=10),
         CName, NameAPI,
-        ft.Container(height=20),
+        ft.Container(height=10),
         CapName, CapAPI,
-        ft.Container(height=20),
+        ft.Container(height=10),
         Region, RegAPI,
-        ft.Container(height=20),
+        ft.Container(height=10),
         SubRegion, SRegAPI], spacing=1, alignment=ft.MainAxisAlignment.START, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
     
 #I know I can do it another way but like this is easier for me to then change the value of the lorem ipsum part ;)
@@ -113,8 +113,8 @@ def main(page: ft.Page):
     #White container
     wContainer = ft.Container(content=ft.Row(
             controls=[column1, divide, column4, column2, column3], alignment=ft.MainAxisAlignment.SPACE_EVENLY), 
-            height=500, 
-            width = 1200, 
+            height=525, 
+            width = 1250, 
             bgcolor="#FFFFFF", 
             border_radius=10,
             padding=50,align=ft.Alignment.BOTTOM_CENTER)
