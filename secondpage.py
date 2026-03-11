@@ -65,11 +65,11 @@ def main(page: ft.Page):
     #White container
     wContainer = ft.Container(content=ft.Row(
             controls=[column1, column2, column3]), 
-            height=200, 
-            width = 600, 
+            height=400, 
+            width = 900, 
             bgcolor="#FFFFFF", 
             border_radius=10,
-            padding=20)
+            padding=50)
     
     #Main container
     blueCont = ft.Container(content=ft.Column(
@@ -77,7 +77,8 @@ def main(page: ft.Page):
         spacing=20),
             height=400, 
             width = 800, 
-            bgcolor="#12366b")
+            bgcolor="#12366b",
+            border_radius=10)
     
     Whole_page= ft.Column(controls=[title, blueCont])
     page.add(Whole_page)
