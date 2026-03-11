@@ -15,7 +15,7 @@ def main(page: ft.Page):
 
     page.bgcolor = "#f3f7ff"
     page.expand=True
-    page.padding= -40
+    page.padding= -29
     page.update()
 
 #main page image
@@ -25,7 +25,8 @@ def main(page: ft.Page):
         width=635,
         height=544.5,
         scale= 1.55 ,
-        expand=True
+        expand=True,
+        
         
         )
 
@@ -37,22 +38,28 @@ def main(page: ft.Page):
         # right = 700,
         width= 700,
         height=400,
-        scale=0.85 
+        scale=0.85,
+        
     )
 
 #buttons in main page
 
     #blueContainerfor real
+    ButtonA= ft.Container(content=ft.Image(src="Tripbutton.png"),scale=1.6,
+                           on_click=None, ink= True, width=600, height=60, margin=-40)
+    ButtonB= ft.Container(content=ft.Image(src="Countrybutton.png"),scale=1.6
+                          , on_click=None, ink=True, width=600, height=60, margin=-40)
+
     Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=600, height=50)
     Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION,width=400, height=50)
-
-    ColumnLeft = ft.Column(controls=[logo_image, Button1, Button2], horizontal_alignment=ft.CrossAxisAlignment.CENTER
+    ColumnLeft1 = ft.Column(controls=[ButtonA, ButtonB], horizontal_alignment=ft.CrossAxisAlignment.CENTER,  spacing=170, margin=40)
+    ColumnLeft = ft.Column(controls=[logo_image, ColumnLeft1], horizontal_alignment=ft.CrossAxisAlignment.CENTER
     )
     ColumnRight = ft.Column(controls=[plane_image],
                             alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
-    Whole_page= ft.Row(controls=[ColumnLeft, ColumnRight],spacing=190, expand= True)
+    Whole_page= ft.Row(controls=[ColumnLeft, ColumnRight],spacing=220, expand= True)
     page.add(Whole_page)
 
     
