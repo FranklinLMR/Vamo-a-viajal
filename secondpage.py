@@ -39,6 +39,8 @@ def main(page: ft.Page):
     SubRegion = ft.Text(value="Sub Region", size = 20, color="#12366b")
     SRegAPI = ft.Text(value="Lorem Ipsum", size = 15, color= "#000000")
 
+#divider made by a container (im so smart i know) (Or maybe im just to lazy to investigate if there a vertical divider)
+    divide = ft.Container(bgcolor="#000000", height=500, width=2)
 
     column1 = ft.Column(controls=[ Flag,
         ft.Container(height=20),
@@ -65,9 +67,9 @@ def main(page: ft.Page):
     column2 = ft.Column(
     controls=[
         Popu,PopuAPI,
-        ft.Container(height=25),
+        ft.Container(height=50),
         Curre, CurreAPI,
-        ft.Container(height=25),
+        ft.Container(height=50),
         Lan, LanAPI
     ]
 )
@@ -82,7 +84,7 @@ def main(page: ft.Page):
     column3 = ft.Column(
     controls=[
         Visa,VisaAPI,
-        ft.Container(height=25),
+        ft.Container(height=50),
         cCode,
         CCodeAPI
     ]
@@ -101,16 +103,16 @@ def main(page: ft.Page):
     column4 = ft.Column(
         controls=[
             Tzone, TZoneAPI,
-            ft.Container(height=15),
+            ft.Container(height=50),
             Weather, WeatherAPI,
-            ft.Container(height=15),
+            ft.Container(height=50),
             LocTime, LocTimeAPI
         ],
         alignment=ft.MainAxisAlignment.START
     )    
     #White container
     wContainer = ft.Container(content=ft.Row(
-            controls=[column1, column4, column2, column3], alignment=ft.MainAxisAlignment.SPACE_EVENLY), 
+            controls=[column1, divide, column4, column2, column3], alignment=ft.MainAxisAlignment.SPACE_EVENLY), 
             height=500, 
             width = 1200, 
             bgcolor="#FFFFFF", 
@@ -122,6 +124,7 @@ def main(page: ft.Page):
     #space container (pls dont question me)
     space5 = ft.Container(height=5)
     space10 = ft.Container(height=10)
+
     #Main container
     blueCont = ft.Container(content=ft.Column(
         controls=[space10, search, space5, wContainer],
