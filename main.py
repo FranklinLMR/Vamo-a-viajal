@@ -1,9 +1,18 @@
 import flet as ft
 import requests 
+import os
+import subprocess
 
 
 def main(page: ft.Page):
     
+
+    def secondpage(e):
+        script_path= os.path.join(os.path.dirname(__file__), "secondpage.py")
+        subprocess.Popen(["python", script_path])
+        page.window.close()
+
+        
     #fonts
     page.fonts = {
         "Main": "fredoka-latin-700-normal.ttf"
