@@ -15,6 +15,7 @@ def main(page: ft.Page):
 
     page.bgcolor = "#f3f7ff"
     page.expand=True
+    page.padding= -40
     page.update()
 
 #main page image
@@ -36,22 +37,22 @@ def main(page: ft.Page):
         # right = 700,
         width= 700,
         height=400,
-        scale=0.8
+        scale=0.85 
     )
 
 #buttons in main page
 
     #blueContainerfor real
-    Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=700, height=50)
-    Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION,width=700, height=50)
+    Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=600, height=50)
+    Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION,width=400, height=50)
 
-    ColumnLeft = ft.Column(controls=[logo_image, Button1, Button2]
+    ColumnLeft = ft.Column(controls=[logo_image, Button1, Button2], horizontal_alignment=ft.CrossAxisAlignment.CENTER
     )
     ColumnRight = ft.Column(controls=[plane_image],
                             alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
-    Whole_page= ft.Row(controls=[ColumnLeft, ColumnRight],spacing=180, expand= True)
+    Whole_page= ft.Row(controls=[ColumnLeft, ColumnRight],spacing=190, expand= True)
     page.add(Whole_page)
 
     
