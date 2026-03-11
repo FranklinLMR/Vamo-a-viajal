@@ -1,6 +1,6 @@
 
 
-name= "Dominican Republic".strip().split()
+name= userinput.strip().split()
 
 import requests
 

@@ -7,11 +7,13 @@ import subprocess
 def main(page: ft.Page):
     
 
-    def secondpage(e):
+    def countrysearch(e):
         secondpath= os.path.join(os.path.dirname(__file__), "secondpage.py")
         subprocess.Popen(["python", secondpath])
         page.window.close()
-        
+    
+    def bookatrip(e):
+        pass
     #fonts
     page.fonts = {
         "Main": "fredoka-latin-700-normal.ttf"
@@ -54,8 +56,8 @@ def main(page: ft.Page):
 #buttons in main page
 
     #blueContainerfor real
-    ButtonA= ft.Container(on_click= secondpage, content=ft.Image(src="Tripbutton.png"),scale=2, ink= True, width=300, height=60, margin=40, border_radius=100)
-    ButtonB= ft.Container(on_click= secondpage, content=ft.Image(src="Countrybutton.png"),scale=2
+    ButtonA= ft.Container(on_click= bookatrip, content=ft.Image(src="Tripbutton.png"),scale=2, ink= True, width=300, height=60, margin=40, border_radius=100)
+    ButtonB= ft.Container(on_click= countrysearch, content=ft.Image(src="Countrybutton.png"),scale=2
                           , ink=True, width=300, height=60, margin=40, border_radius=100)
 
     # Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=600, height=50)
