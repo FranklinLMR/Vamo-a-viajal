@@ -17,7 +17,7 @@ def main(page: ft.Page):
     page.update()
 
 #Title
-    title = ft.Text("Country Search", size=45)
+    title = ft.Text("Country Search", size=80, color="#12366b")
 
 #search bar
 
@@ -61,29 +61,32 @@ def main(page: ft.Page):
     CCodeAPI = ft.Text(value="Lorem Ipsum", size = 15, color= "#000000")
 
     column3 = ft.Column(controls=[Visa, VisaAPI, cCode, CCodeAPI])
+
+    #column4 I forgot to add it. (Im so done teacher)
     
     #White container
     wContainer = ft.Container(content=ft.Row(
-            controls=[column1, column2, column3]), 
-            height=400, 
-            width = 900, 
+            controls=[column1, column2, column3], alignment=ft.MainAxisAlignment.SPACE_EVENLY), 
+            height=600, 
+            width = 1200, 
             bgcolor="#FFFFFF", 
             border_radius=10,
             padding=50)
+    
+    #found documentation for the space_evenly im so lost with this new version
     
     #Main container
     blueCont = ft.Container(content=ft.Column(
         controls=[search, wContainer],
         spacing=20),
-            height=400, 
-            width = 800, 
+            height=700, 
+            width = 1350, 
             bgcolor="#12366b",
             border_radius=10)
     
     Whole_page= ft.Column(controls=[title, blueCont])
     page.add(Whole_page)
 
-    
 
 ft.run(main, assets_dir="assets")    
 
