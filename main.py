@@ -8,8 +8,9 @@ def main(page: ft.Page):
     
 
     def secondpage(e):
-        print("hello")
-        page.update()
+        secondpath= os.path.join(os.path.dirname(__file__), "secondpage.py")
+        subprocess.Popen(["python", secondpath])
+        page.window.close()
         
     #fonts
     page.fonts = {
@@ -53,13 +54,13 @@ def main(page: ft.Page):
 #buttons in main page
 
     #blueContainerfor real
-    ButtonA= ft.Container(on_click= secondpage, content=ft.Image(src="Tripbutton.png"),scale=1.6, ink= True, width=400, height=60, margin=-40)
-    ButtonB= ft.Container(on_click= None, content=ft.Image(src="Countrybutton.png"),scale=1.6
-                          , ink=True, width=400, height=60, margin=-40)
+    ButtonA= ft.Container(on_click= secondpage, content=ft.Image(src="Tripbutton.png"),scale=2, ink= True, width=300, height=60, margin=40, border_radius=100)
+    ButtonB= ft.Container(on_click= secondpage, content=ft.Image(src="Countrybutton.png"),scale=2
+                          , ink=True, width=300, height=60, margin=40, border_radius=100)
 
     # Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=600, height=50)
     # Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION,width=400, height=50)
-    ColumnLeft1 = ft.Column(controls=[ButtonA, ButtonB], horizontal_alignment=ft.CrossAxisAlignment.CENTER,  spacing=170, margin=40)
+    ColumnLeft1 = ft.Column(controls=[ButtonA, ButtonB], horizontal_alignment=ft.CrossAxisAlignment.CENTER,  spacing=20, margin=40)
     ColumnLeft = ft.Column(controls=[logo_image, ColumnLeft1], horizontal_alignment=ft.CrossAxisAlignment.CENTER
     )
     ColumnRight = ft.Column(controls=[plane_image],
