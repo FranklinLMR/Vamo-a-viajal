@@ -8,10 +8,8 @@ def main(page: ft.Page):
     
 
     def secondpage(e):
-        script_path= os.path.join(os.path.dirname(__file__), "secondpage.py")
-        subprocess.Popen(["python", script_path])
-        page.window.close()
-
+        print("hello")
+        page.update()
         
     #fonts
     page.fonts = {
@@ -50,17 +48,17 @@ def main(page: ft.Page):
         scale=0.85,
         
     )
+    
 
 #buttons in main page
 
     #blueContainerfor real
-    ButtonA= ft.Container(content=ft.Image(src="Tripbutton.png"),scale=1.6,
-                           on_click=None, ink= True, width=600, height=60, margin=-40)
-    ButtonB= ft.Container(content=ft.Image(src="Countrybutton.png"),scale=1.6
-                          , on_click=None, ink=True, width=600, height=60, margin=-40)
+    ButtonA= ft.Container(on_click= secondpage, content=ft.Image(src="Tripbutton.png"),scale=1.6, ink= True, width=400, height=60, margin=-40)
+    ButtonB= ft.Container(on_click= None, content=ft.Image(src="Countrybutton.png"),scale=1.6
+                          , ink=True, width=400, height=60, margin=-40)
 
-    Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=600, height=50)
-    Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION,width=400, height=50)
+    # Button1 = ft.Button(content=ft.Text(value="Book a Flight!"), icon=ft.Icons.AIRPLANEMODE_ON, width=600, height=50)
+    # Button2 = ft.Button(content=ft.Text(value="Country Search"), icon=ft.Icons.MY_LOCATION,width=400, height=50)
     ColumnLeft1 = ft.Column(controls=[ButtonA, ButtonB], horizontal_alignment=ft.CrossAxisAlignment.CENTER,  spacing=170, margin=40)
     ColumnLeft = ft.Column(controls=[logo_image, ColumnLeft1], horizontal_alignment=ft.CrossAxisAlignment.CENTER
     )
