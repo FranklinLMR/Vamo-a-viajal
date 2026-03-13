@@ -1,97 +1,7 @@
 import flet as ft
 import requests
  
-userinput=""
-name= userinput.strip().split()
-
-namec= "%20".join(name)
-
-country = requests.get(f"https://restcountries.com/v3.1/name/{namec}?fullText=true&fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng")
-
-if country.status_code == 200:
-    Country_data= country.json()    
-        
-
-    #NOTE , all data is not mandatory, I just put everything that the API and fields gave me, only the ones necessary,and if useful
-    #Retrieve the whole dictionary:
-
-    Country_data[0]
-
-
-
-    #Flag in png and svg
-
-    flag_png= Country_data[0]["flags"]["png"] 
-
-    flag_svg= Country_data[0]["flags"]["svg"]
-
-
-
-    #CountryName
-
-    NameCmmn= Country_data[0]["name"]["common"]
-
-    #This is for the long name
-
-    NameOff= Country_data[0]["name"]["official"]
-
-
-    #Name    the country (original language)
-
-    CodeNameCmmn= list(Country_data[0]["name"]["nativeName"].keys())[0]
-
-    OriginalNameCmmn= Country_data[0]["name"]["nativeName"][CodeNameCmmn]["common"]   #We know what common and official mean
-
-    OriginalNameOff=Country_data[0]["name"]["nativeName"][CodeNameCmmn]["official"]
-
-
-    #Currency
-
-    CurrencyCode= list(Country_data[0]["currencies"].keys())[0]
-
-    CurrencyName= Country_data[0]["currencies"][CurrencyCode]["name"]
-
-    CurrencySymbol= Country_data[0]["currencies"][CurrencyCode]["symbol"]
-
-
-    #Language
-    languagecode= list(Country_data[0]["languages"].keys())[0]
-
-    languageName= Country_data[0]["languages"][languagecode]
-
-
-    #More info
-
-    capital = Country_data[0]["capital"][0]
-
-    region=  Country_data[0]["region"]
-
-    subregion =  Country_data[0]["subregion"]
-
-    population=  Country_data[0]["population"]
-
-
-    timezones =  Country_data[0]["timezones"]
-
-    timezone =  Country_data[0]["timezones"][0]  #Some countries are very big
-
-    #Weather information
-
-
-    lat = Country_data[0]["latlng"][0]
-    lng = Country_data[0]["latlng"][1]
-
-    #Combining that data for retrieving  weather
-
-    # weather= requests.get(f"")
-
-else:
-        
-        print("this is not working")
-
-"""Country Data"""
-
-
+import asyncio
 
 
 
@@ -117,13 +27,117 @@ def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.bgcolor = "#f3f7ff"
     page.update()
- 
+    
+
+    def Hintscreation(e):
+        pass
+
+
+    def SubmittedText(e):
+
+
+
+
+
+        userinput=(e.control.value).lower()
+        name= userinput.strip().split()
+
+        namec= "%20".join(name)
+
+        country = requests.get(f"https://restcountries.com/v3.1/name/{namec}?fullText=true&fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng")
+
+        if country.status_code == 200:
+            Country_data= country.json()    
+                
+
+
+            #Flag in png and svg
+
+            flag_png= Country_data[0]["flags"]["png"] 
+
+        
+            #CountryName
+
+            NameCmmn= Country_data[0]["name"]["common"]
+
+            #Currency
+
+            CurrencyCode= list(Country_data[0]["currencies"].keys())[0]
+
+            CurrencyName= Country_data[0]["currencies"][CurrencyCode]["name"]
+
+            CurrencySymbol= Country_data[0]["currencies"][CurrencyCode]["symbol"]
+
+
+            #Language
+            languagecode= list(Country_data[0]["languages"].keys())[0]
+
+            languageName= Country_data[0]["languages"][languagecode]
+
+
+            #More info
+
+            capital = Country_data[0]["capital"][0]
+
+            region=  Country_data[0]["region"]
+
+            subregion =  Country_data[0]["subregion"]
+
+            population=  Country_data[0]["population"]
+
+
+            timezones =  Country_data[0]["timezones"]
+
+            timezone =  Country_data[0]["timezones"][0]  #Some countries are very big
+
+            #Weather information
+
+
+            lat = Country_data[0]["latlng"][0]
+            lng = Country_data[0]["latlng"][1]
+
+            #Combining that data for retrieving  weather
+
+            url = f"https://api.open-meteo.com/v1/forecast?latitude={Country_data[0]['latlng'][0]}&longitude={Country_data[0]['latlng'][1]}&daily=temperature_2m_min,temperature_2m_max,apparent_temperature_max,apparent_temperature_min,precipitation_sum,precipitation_probability_max,weather_code,sunrise,sunset&timezone=auto"
+            weather = requests.get(url)
+            data = weather.json()
+
+
+
+            Flag.content.src= flag_png
+
+            NameAPI.value = NameCmmn
+            CapAPI.value = capital
+            RegAPI.value = region
+            SRegAPI.value= subregion
+            
+
+
+
+
+        else:
+                
+                print("this is not working")
+
+        """Country Data"""
+
+        page.update()
+
+
+
+
 #Title
     title = ft.Text("Country Search", size=80, color="#12366b", align=ft.Alignment.CENTER, )
  
 #search bar
  
-    search = ft.SearchBar(bar_hint_text="Search a Country...", align=ft.Alignment.CENTER, bar_bgcolor="#FFFFFF")
+    search = ft.SearchBar(bar_hint_text="Search a Country...", 
+                          align=ft.Alignment.CENTER, 
+                          bar_bgcolor="#FFFFFF", 
+                          bar_text_style=ft.TextStyle(color="#12366b"),
+                          on_change=Hintscreation,
+                          on_submit=SubmittedText
+                        )
  
 #White container
     #collumn1

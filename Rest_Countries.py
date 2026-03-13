@@ -1,4 +1,4 @@
-
+userinput = "Dominican Republic"
 
 name= userinput.strip().split()
 
@@ -89,6 +89,14 @@ lng = Country_data[0]["latlng"][1]
 
 #Combining that data for retrieving  weather
 
-# weather= requests.get(f"")
+url = f"https://api.open-meteo.com/v1/forecast?latitude={Country_data[0]['latlng'][0]}&longitude={Country_data[0]['latlng'][1]}&daily=temperature_2m_min,temperature_2m_max,apparent_temperature_max,apparent_temperature_min,precipitation_sum,precipitation_probability_max,weather_code,sunrise,sunset&timezone=auto"
+
+weather = requests.get(url)
+data = weather.json()
 
 
+daily = data['daily'][]
+
+
+
+print(daily)
