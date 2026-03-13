@@ -19,10 +19,10 @@ def main(page: ft.Page):
     Profile = ft.Container(ft.Image(src="profile.JPG"), width=200)
 
     PName = ft.Text(value="Full Name", size = 20, color="#12366b")
-    NameAPI = ft.Text(value="Lorem Ipsum", size = 15, color= "#000000")
+    NameAPI = ft.TextField(label="Insert your name", color= "#000000", max_length= 50)
 
     IDNumber = ft.Text(value="ID Number", size = 20, color="#12366b")
-    IDAPI = ft.Text(value="Lorem Ipsum", size = 15, color= "#000000")   
+    IDAPI = ft.TextField(label="Insert your Passport or ID number",  color= "#000000", max_length=30)   
 
     divide = ft.Container(bgcolor="#000000", height=500, width=2)
 
@@ -67,7 +67,7 @@ def main(page: ft.Page):
 )
     
     Notes = ft.Text(value="Notes", size = 30, color="#12366b")
-    NotesAPI = ft.Text(value="Lorem Ipsum", size = 20, color= "#000000")
+    NotesAPI = ft.TextField(label="Any more details", color= "#000000", multiline= True, max_length= 750, width=225, text_size=12)
 
     column4 = ft.Column(
         controls=[
