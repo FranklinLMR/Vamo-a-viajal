@@ -1,0 +1,9 @@
+---User-Plan---
+Name: Bonifacio2
+ID or passport: idk
+Country: Slovenia
+Departure Date: 04/02/2026
+Return Date: 04/30/2026
+Number of days selected: 29
+Cost per night: USD$100
+Total Cost: USD$2900

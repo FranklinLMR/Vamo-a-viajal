@@ -1,95 +1,98 @@
+# userinput = "Dominican Republic"
 
+# name= userinput.strip().split()
 
-name= "Dominican Republic".strip().split()
+# import requests
 
-import requests
+# namec= "%20".join(name)
 
-namec= "%20".join(name)
+# country = requests.get(f"https://restcountries.com/v3.1/name/{namec}?fullText=true&fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng")
 
-country = requests.get(f"https://restcountries.com/v3.1/name/{namec}?fullText=true&fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng")
-
-if country.status_code == 200:
-        Country_data= country.json()    
+# if country.status_code == 200:
+#         Country_data= country.json()    
         
 
-else:
+# else:
         
-        print("this is not working")
+#         print("this is not working")
 
-"""Country Data"""
+# """Country Data"""
 
-#NOTE , all data is not mandatory, I just put everything that the API and fields gave me, only the ones necessary,and if useful
-#Retrieve the whole dictionary:
+# #NOTE , all data is not mandatory, I just put everything that the API and fields gave me, only the ones necessary,and if useful
+# #Retrieve the whole dictionary:
 
-Country_data[0]
-
-
-
-#Flag in png and svg
-
-flag_png= Country_data[0]["flags"]["png"] 
-
-flag_svg= Country_data[0]["flags"]["svg"]
+# Country_data[0]
 
 
 
-#CountryName
+# #Flag in png and svg
 
-NameCmmn= Country_data[0]["name"]["common"]
+# flag_png= Country_data[0]["flags"]["png"] 
 
-#This is for the long name
-
-NameOff= Country_data[0]["name"]["official"]
+# flag_svg= Country_data[0]["flags"]["svg"]
 
 
-#Name    the country (original language)
 
-CodeNameCmmn= list(Country_data[0]["name"]["nativeName"].keys())[0]
+# #CountryName
 
-OriginalNameCmmn= Country_data[0]["name"]["nativeName"][CodeNameCmmn]["common"]   #We know what common and official mean
+# NameCmmn= Country_data[0]["name"]["common"]
 
-OriginalNameOff=Country_data[0]["name"]["nativeName"][CodeNameCmmn]["official"]
+# #This is for the long name
 
-
-#Currency
-
-CurrencyCode= list(Country_data[0]["currencies"].keys())[0]
-
-CurrencyName= Country_data[0]["currencies"][CurrencyCode]["name"]
-
-CurrencySymbol= Country_data[0]["currencies"][CurrencyCode]["symbol"]
+# NameOff= Country_data[0]["name"]["official"]
 
 
-#Language
-languagecode= list(Country_data[0]["languages"].keys())[0]
+# #Name    the country (original language)
 
-languageName= Country_data[0]["languages"][languagecode]
+# CodeNameCmmn= list(Country_data[0]["name"]["nativeName"].keys())[0]
 
+# OriginalNameCmmn= Country_data[0]["name"]["nativeName"][CodeNameCmmn]["common"]   #We know what common and official mean
 
-#More info
-
-capital = Country_data[0]["capital"][0]
-
-region=  Country_data[0]["region"]
-
-subregion =  Country_data[0]["subregion"]
-
-population=  Country_data[0]["population"]
+# OriginalNameOff=Country_data[0]["name"]["nativeName"][CodeNameCmmn]["official"]
 
 
-timezones =  Country_data[0]["timezones"]
+# #Currency
 
-timezone =  Country_data[0]["timezones"][0]  #Some countries are very big
+# CurrencyCode= list(Country_data[0]["currencies"].keys())[0]
 
-#Weather information
+# CurrencyName= Country_data[0]["currencies"][CurrencyCode]["name"]
+
+# CurrencySymbol= Country_data[0]["currencies"][CurrencyCode]["symbol"]
 
 
-lat = Country_data[0]["latlng"][0]
-lng = Country_data[0]["latlng"][1]
+# #Language
+# languagecode= list(Country_data[0]["languages"].keys())[0]
 
-#Combining that data for retrieving  weather
+# languageName= Country_data[0]["languages"][languagecode]
 
-# weather= requests.get(f"")
+
+# #More info
+
+# capital = Country_data[0]["capital"][0]
+
+# region=  Country_data[0]["region"]
+
+# subregion =  Country_data[0]["subregion"]
+
+# population=  Country_data[0]["population"]
+
+
+# timezones =  Country_data[0]["timezones"]
+
+# timezone =  Country_data[0]["timezones"][0]  #Some countries are very big
+
+# #Weather information
+
+
+# lat = Country_data[0]["latlng"][0]
+# lng = Country_data[0]["latlng"][1]
+
+# #Combining that data for retrieving  weather
+
+# url = f"https://api.open-meteo.com/v1/forecast?latitude={Country_data[0]['latlng'][0]}&longitude={Country_data[0]['latlng'][1]}&daily=temperature_2m_min,temperature_2m_max,apparent_temperature_max,apparent_temperature_min,precipitation_sum,precipitation_probability_max,weather_code,sunrise,sunset&timezone=auto"
+
+# weather = requests.get(url)
+# data = weather.json()
 
 import requests
 
@@ -101,3 +104,8 @@ current = data['current_weather']
 hourly = data['hourly']
 daily = data['daily']
 
+# daily = data['daily'][]
+
+
+
+# print(daily)
