@@ -72,7 +72,8 @@ def main(page: ft.Page):
     Visits = ft.Text(value="Planned Visits", size = 30, color="#12366b")
     VisitsAPI = ft.Text(value="Lorem Ipsum", size = 20, color= "#000000")
 
-    buttonVisits = ft.Button(text="Total Visit", 
+
+    buttonVisits = ft.Button(content="Total Visit", 
                              width=100, 
                              height=50, 
                              bgcolor="#12366b", 
