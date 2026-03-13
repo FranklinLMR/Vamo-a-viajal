@@ -18,7 +18,7 @@ def main(page: ft.Page):
     page.fonts = {
         "Main": "fredoka-latin-700-normal.ttf"
     }
-
+    page.window.full_screen = True
     page.theme = ft.Theme(font_family="Main")
     page.title= "Via Py"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER

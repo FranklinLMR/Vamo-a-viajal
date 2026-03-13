@@ -1,6 +1,8 @@
 import flet as ft
 import requests
-
+import subprocess
+import os
+import asyncio
 
 #Trying to PUT AN API OF VISAS< IM JUST GOING TO MAKE A LIST OF GENERAL CONTINENTAL INFORMATION
 #Ts is having me crazy
@@ -25,7 +27,7 @@ def main(page: ft.Page):
     page.fonts = {
         "Main": "fredoka-latin-700-normal.ttf"
     }
- 
+    page.window.full_screen = True
     page.theme = ft.Theme(font_family="Main")
     page.title= "Via Py"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
@@ -36,9 +38,10 @@ def main(page: ft.Page):
 
     def Hintscreation(e):
         pass
+        #Skipping this
 
 
-    def SubmittedText(e):
+    async def SubmittedText(e):
 
 
 
@@ -170,6 +173,14 @@ def main(page: ft.Page):
 
             WeatherAPI.value= "\n".join(lines)
 
+        elif e.control.value == "return":
+            search.bar_hint_text= "Returning to main menu..."
+            e.control.value= ""
+            page.update()
+            await asyncio.sleep(2)
+            secondpath= os.path.join(os.path.dirname(__file__), "main.py")
+            subprocess.Popen(["python", secondpath])
+            page.window.close()
 
         else:
                 
@@ -187,10 +198,10 @@ def main(page: ft.Page):
  
 #search bar
  
-    search = ft.SearchBar(bar_hint_text="Search a Country...", 
+    search = ft.SearchBar(bar_hint_text="Search a Country...                                                                                                       (Type 'menu' to return)", 
                           align=ft.Alignment.CENTER, 
                           bar_bgcolor="#FFFFFF", 
-                          bar_text_style=ft.TextStyle(color="#12366b"),
+                          bar_text_style=ft.TextStyle(color= "#516a8f"),
                           on_change=Hintscreation,
                           on_submit=SubmittedText
                         )
