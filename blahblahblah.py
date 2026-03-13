@@ -5,6 +5,38 @@ import os
 import sys
 import requests
 
+
+SubRegRate= {
+  "Northern Europe": 180,
+  "Western Europe": 160,
+  "Eastern Europe": 110,
+  "Southern Europe": 140,
+
+  "Northern Africa": 60,
+  "Western Africa": 55,
+  "Middle Africa": 70,
+  "Eastern Africa": 65,
+  "Southern Africa": 80,
+
+  "Northern America": 210,
+  "Central America": 95,
+  "South America": 105,
+  "Caribbean": 130,
+
+  "Western Asia": 120,
+  "Central Asia": 90,
+  "Eastern Asia": 150,
+  "Southern Asia": 85,
+  "South-Eastern Asia": 100,
+
+  "Australia and New Zealand": 190,
+  "Melanesia": 120,
+  "Micronesia": 110,
+  "Polynesia": 130,
+
+  "Antarctica": 350
+}
+
 def main(page: ft.Page):
     page.fonts = {
         "Main": "fredoka-latin-700-normal.ttf"
@@ -63,7 +95,7 @@ def main(page: ft.Page):
         print(end.date())
         days= (end.date()- start.date()).days+1   #I got help from AI for this
         if DataUser[3] !="":
-            Costs= days*CountryRate
+            Costs= days*SubRegRate[PlanAPI.value]
         
         
         
