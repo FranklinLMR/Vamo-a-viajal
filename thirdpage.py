@@ -5,6 +5,38 @@ import os
 import sys
 import requests
 
+
+SubRegRate= {
+  "Northern Europe": 180,   #WIth AI, not that relevant either way
+  "Western Europe": 160,
+  "Eastern Europe": 110,
+  "Southern Europe": 140,
+
+  "Northern Africa": 60,
+  "Western Africa": 55,
+  "Middle Africa": 70,
+  "Eastern Africa": 65,
+  "Southern Africa": 80,
+
+  "Northern America": 210,
+  "Central America": 95,
+  "South America": 105,
+  "Caribbean": 130,
+
+  "Western Asia": 120,
+  "Central Asia": 90,
+  "Eastern Asia": 150,
+  "Southern Asia": 85,
+  "South-Eastern Asia": 100,
+
+  "Australia and New Zealand": 190,
+  "Melanesia": 120,
+  "Micronesia": 110,
+  "Polynesia": 130,
+
+  "Antarctica": 350
+}
+
 def main(page: ft.Page):
     page.fonts = {
         "Main": "fredoka-latin-700-normal.ttf"
@@ -17,9 +49,12 @@ def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.bgcolor = "#f3f7ff"
     page.update()
-    
+    count= requests.get("https://restcountries.com/v3.1/all?fields=name,cca2")
+    cdata =count.json()
+
+
     DataUser=["","","",""]
-    Costs=["",""]
+    Costs=0
     def mainmenu(e):
         secondpath= os.path.join(os.path.dirname(__file__), "main.py")
         subprocess.Popen(["python", secondpath])
@@ -38,11 +73,11 @@ def main(page: ft.Page):
         DataUser[1]=e.control.value
 
     
-    def submit(e):
+    def submitt(e):
         if DepartAPI.value and ArriveAPI.value != "":
             try:
-                with open(f"DataSubmitted1.txt", "w") as file:   #This is completely bad because it is better for sql
-                    file.write(f"---User-Plan---\nName: {DataUser[0]}\nID or passport: {DataUser[1]}\nCountry Code: {DataUser[3]}\nDeparture Date: {DepartAPI.value}\nReturn Date: {ArriveAPI.value}")
+                with open(f"{DataUser[1]}_Plan.txt", "w") as file:   #This is completely bad because it is better for sql
+                    file.write(f"---User-Plan---\nName: {DataUser[0]}\nID or passport: {DataUser[1]}\nCountry: {DataUser[3]}\nDeparture Date: {DepartAPI.value}\nReturn Date: {ArriveAPI.value}\n{VisitsAPI.value}")
             except:
                 for f in range(10):
                     print("Error, Missing data")
@@ -50,54 +85,61 @@ def main(page: ft.Page):
             for f in range(10):
                     print("Error, Missing data")
 
-    def handle_change(e: ft.Event[ft.DatePicker]):
-        l= int(e.control.value.strftime("%d"))
-        m= int(e.control.value.strftime("%m"))
-        Costs[0] =l
-        print(m)
-        de.first_date = datetime.datetime(year=today.year, month=m, day=l+1) 
-        DepartAPI.value=f"{e.control.value.strftime('%m/%d/%Y')}"
-        Duration2.visible=True
-        DurrationAPI.visible=False
-        page.update()
+    def handle_change(e: ft.Event[ft.DateRangePicker]):
+        global Costs
+        DepartAPI.value = e.control.start_value.strftime('%m/%d/%Y')
+        ArriveAPI.value = e.control.end_value.strftime('%m/%d/%Y')
+        start = e.control.start_value   
+        end = e.control.end_value   
 
-    def handle_change2(e: ft.Event[ft.DatePicker]):
-        ArriveAPI.value=f"{e.control.value.strftime('%m/%d/%Y')}"
-        Costs[1] = int(e.control.value.strftime("%d"))
-        Reset2.visible = True
+        days= (end.date()- start.date()).days+1   #I got help from AI for this
+        if DataUser[3] !="":
+            inpt=DataUser[3].strip().split()
+            namec = "%20".join(inpt)
+            country = requests.get(f"https://restcountries.com/v3.1/name/{namec}?fullText=true&fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng,cca2,cca3,idd")
+
+
+            if country.status_code == 200:
+                Country_data= country.json()  
+                subregion = Country_data[0].get("subregion") or ""
+                rate = SubRegRate.get(subregion, 100)
+                
+                Costs= days*rate
+                VisitsAPI.value = f"Number of days selected: {days}\nCost per night: USD${rate}\nTotal Cost: USD${Costs}"
+                
+            else:
+                VisitsAPI.value = "Could not get country info."
+        else:
+            VisitsAPI.value = "Select a country first."
         page.update()
     
-    def resett(e):
-        d.first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1)
-        de. first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1)
-        Duration2.visible=False
-        DurrationAPI.visible=True
-        ArriveAPI.value=""
-        DepartAPI.value=""
-        page.update()
 
     def Drop(e):
-        e.control.value
-        DataUser[3]=e.control.value
 
+        DepartAPI.value = ""
+        ArriveAPI.value = ""
+        VisitsAPI.value ="  "
+        if DurrationAPI.on_click == None:
+            DurrationAPI.on_click = lambda e: page.show_dialog(drp)
+            DurrationAPI.bgcolor= "#154275"
+            
+        DataUser[3]=PlanAPI.value
+        page.update()
+        
+        
     today = datetime.datetime.now()
 
-    d = ft.DatePicker(
+    drp= ft.DateRangePicker(
         first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1),
-        last_date=datetime.datetime(year=today.year, month=today.month+2    , day=20),
+        last_date=datetime.datetime(year=today.year, month=today.month+6, day=20),
         on_change=handle_change
-    )
-    de = ft.DatePicker(
-        first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1),
-        last_date=datetime.datetime(year=today.year, month=today.month+2, day=20),
-        on_change=handle_change2
     )
     Title = ft.Text("Book a flight! ", size=80, color="#12366b", align=ft.Alignment.CENTER, )
 
     Profile = ft.Container(ft.Image(src="profile.JPG"), width=200)
    
     Back= ft.Button(content="Main Menu", on_click= mainmenu)
-    Submit= ft.Button(content="Submit", on_click=submit)
+    Submitts= ft.Button(content="Submit", on_click=submitt)
 
 
     PName = ft.Text(value="Full Name", size = 30, color="#12366b")
@@ -109,7 +151,7 @@ def main(page: ft.Page):
 
     column1 = ft.Column(controls=[ Profile,
         ft.Container(height=10),
-        PName, NameAPI,
+        PName, NameAPI, 
         ft.Container(height=10),
         IDNumber, IDAPI,
         ft.Container(height=10),
@@ -117,28 +159,25 @@ def main(page: ft.Page):
     
     #2
 
-    count= requests.get("https://restcountries.com/v3.1/all?fields=name,cca2")
-    cdata =count.json()
+  
 
 
     Plan = ft.Text(value="Plan your trip", size = 30, color="#12366b")
     PlanAPI = ft.Dropdown(
         label="Select a country", editable= True,   
         width=200,
-        options = [ft.dropdown.Option(key=c["cca2"], text=c["name"]["common"]) for c in cdata],
+        options = [ft.dropdown.Option(key=c["name"]["common"], text=c["name"]["common"]) for c in cdata],
         on_select= Drop, text_style= ft.TextStyle( color="#516a8f" )
     )
 
     Durration = ft.Text(value="Set Duration", size = 20, color="#12366b")
-    DurrationAPI = ft.Button(content="Departure", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(d))
-    Duration2 = ft.Button(content="Return", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(de), visible=False)
-    Reset2= ft.Button(content="Reset", color= "#D7E7F7", bgcolor= "#154275", on_click=resett, visible=False)
+    DurrationAPI = ft.Button(content="Departure", color= "#D7E7F7", bgcolor= "#939698", on_click=None)
     
     column2 = ft.Column(
     controls=[
         Plan, PlanAPI,
         ft.Container(height=50),
-        Durration, DurrationAPI, Duration2, Reset2,
+        Durration, DurrationAPI,
         ft.Container(height=50),
         
         
@@ -180,8 +219,8 @@ def main(page: ft.Page):
             Notes, NotesAPI,
             ft.Container(height=15),
             Visits, VisitsAPI,
-            ft.Container(height=175),
-        ft.Row(controls=[Back, Submit])
+            ft.Container(height=80),
+        ft.Row(controls=[Back, Submitts])
         ],
         alignment=ft.MainAxisAlignment.START
     )

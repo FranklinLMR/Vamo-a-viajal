@@ -49,7 +49,7 @@ def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.bgcolor = "#f3f7ff"
     page.update()
-    count= requests.get("https://restcountries.com/v3.1/all?fields=name,cca2,subregion")
+    count= requests.get("https://restcountries.com/v3.1/all?fields=name,cca2")
     cdata =count.json()
 
 
@@ -73,11 +73,11 @@ def main(page: ft.Page):
         DataUser[1]=e.control.value
 
     
-    def submit(e):
+    def submitt(e):
         if DepartAPI.value and ArriveAPI.value != "":
             try:
-                with open(f"DataSubmitted1.txt", "w") as file:   #This is completely bad because it is better for sql
-                    file.write(f"---User-Plan---\nName: {DataUser[0]}\nID or passport: {DataUser[1]}\nCountry Code: {DataUser[3]}\nDeparture Date: {DepartAPI.value}\nReturn Date: {ArriveAPI.value}")
+                with open(f"{DataUser[1]}_Plan.txt", "w") as file:   #This is completely bad because it is better for sql
+                    file.write(f"---User-Plan---\nName: {DataUser[0]}\nID or passport: {DataUser[1]}\nCountry: {DataUser[3]}\nDeparture Date: {DepartAPI.value}\nReturn Date: {ArriveAPI.value}\n{VisitsAPI.value}")
             except:
                 for f in range(10):
                     print("Error, Missing data")
@@ -86,25 +86,47 @@ def main(page: ft.Page):
                     print("Error, Missing data")
 
     def handle_change(e: ft.Event[ft.DateRangePicker]):
-        
+        global Costs
         DepartAPI.value = e.control.start_value.strftime('%m/%d/%Y')
         ArriveAPI.value = e.control.end_value.strftime('%m/%d/%Y')
         start = e.control.start_value   
         end = e.control.end_value   
 
-        print(end.date())
         days= (end.date()- start.date()).days+1   #I got help from AI for this
         if DataUser[3] !="":
-            Costs= days*SubRegRate[PlanAPI.value]
-        
-        
-        
+            inpt=DataUser[3].strip().split()
+            namec = "%20".join(inpt)
+            country = requests.get(f"https://restcountries.com/v3.1/name/{namec}?fullText=true&fields=name,capital,region,subregion,population,currencies,languages,flags,timezones,latlng,cca2,cca3,idd")
+
+
+            if country.status_code == 200:
+                Country_data= country.json()  
+                subregion = Country_data[0].get("subregion") or ""
+                rate = SubRegRate.get(subregion, 100)
+                
+                Costs= days*rate
+                VisitsAPI.value = f"Number of days selected: {days}\nCost per night: USD${rate}\nTotal Cost: USD${Costs}"
+                
+            else:
+                VisitsAPI.value = "Could not get country info."
+        else:
+            VisitsAPI.value = "Select a country first."
         page.update()
     
 
     def Drop(e):
-        DataUser[3]=e.control.value
 
+        DepartAPI.value = ""
+        ArriveAPI.value = ""
+        VisitsAPI.value ="  "
+        if DurrationAPI.on_click == None:
+            DurrationAPI.on_click = lambda e: page.show_dialog(drp)
+            DurrationAPI.bgcolor= "#154275"
+            
+        DataUser[3]=PlanAPI.value
+        page.update()
+        
+        
     today = datetime.datetime.now()
 
     drp= ft.DateRangePicker(
@@ -117,7 +139,7 @@ def main(page: ft.Page):
     Profile = ft.Container(ft.Image(src="profile.JPG"), width=200)
    
     Back= ft.Button(content="Main Menu", on_click= mainmenu)
-    Submit= ft.Button(content="Submit", on_click=submit)
+    Submitts= ft.Button(content="Submit", on_click=submitt)
 
 
     PName = ft.Text(value="Full Name", size = 30, color="#12366b")
@@ -129,7 +151,7 @@ def main(page: ft.Page):
 
     column1 = ft.Column(controls=[ Profile,
         ft.Container(height=10),
-        PName, NameAPI,
+        PName, NameAPI, 
         ft.Container(height=10),
         IDNumber, IDAPI,
         ft.Container(height=10),
@@ -144,12 +166,12 @@ def main(page: ft.Page):
     PlanAPI = ft.Dropdown(
         label="Select a country", editable= True,   
         width=200,
-        options = [ft.dropdown.Option(key=c["cca2"], text=c["name"]["common"]) for c in cdata],
+        options = [ft.dropdown.Option(key=c["name"]["common"], text=c["name"]["common"]) for c in cdata],
         on_select= Drop, text_style= ft.TextStyle( color="#516a8f" )
     )
 
     Durration = ft.Text(value="Set Duration", size = 20, color="#12366b")
-    DurrationAPI = ft.Button(content="Departure", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(drp))
+    DurrationAPI = ft.Button(content="Departure", color= "#D7E7F7", bgcolor= "#939698", on_click=None)
     
     column2 = ft.Column(
     controls=[
@@ -197,8 +219,8 @@ def main(page: ft.Page):
             Notes, NotesAPI,
             ft.Container(height=15),
             Visits, VisitsAPI,
-            ft.Container(height=175),
-        ft.Row(controls=[Back, Submit])
+            ft.Container(height=80),
+        ft.Row(controls=[Back, Submitts])
         ],
         alignment=ft.MainAxisAlignment.START
     )
