@@ -1,27 +1,25 @@
 import flet as ft 
 import datetime
-import requests
 import subprocess
-import os 
+import os
 import sys
-
+import requests
 
 def main(page: ft.Page):
     page.fonts = {
         "Main": "fredoka-latin-700-normal.ttf"
     }
+    
     page.window.full_screen = True
-
     page.theme = ft.Theme(font_family="Main")
     page.title= "Via Py"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.bgcolor = "#f3f7ff"
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-
     page.update()
-
+    
     DataUser=["","","",""]
+    Costs=["",""]
     def mainmenu(e):
         secondpath= os.path.join(os.path.dirname(__file__), "main.py")
         subprocess.Popen(["python", secondpath])
@@ -55,6 +53,7 @@ def main(page: ft.Page):
     def handle_change(e: ft.Event[ft.DatePicker]):
         l= int(e.control.value.strftime("%d"))
         m= int(e.control.value.strftime("%m"))
+        Costs[0] =l
         print(m)
         de.first_date = datetime.datetime(year=today.year, month=m, day=l+1) 
         DepartAPI.value=f"{e.control.value.strftime('%m/%d/%Y')}"
@@ -64,7 +63,7 @@ def main(page: ft.Page):
 
     def handle_change2(e: ft.Event[ft.DatePicker]):
         ArriveAPI.value=f"{e.control.value.strftime('%m/%d/%Y')}"
-
+        Costs[1] = int(e.control.value.strftime("%d"))
         Reset2.visible = True
         page.update()
     
@@ -72,7 +71,7 @@ def main(page: ft.Page):
         d.first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1)
         de. first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1)
         Duration2.visible=False
-        Durration.visible=True
+        DurrationAPI.visible=True
         ArriveAPI.value=""
         DepartAPI.value=""
         page.update()
@@ -92,26 +91,23 @@ def main(page: ft.Page):
         first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1),
         last_date=datetime.datetime(year=today.year, month=today.month+2, day=20),
         on_change=handle_change2
-
     )
     Title = ft.Text("Book a flight! ", size=80, color="#12366b", align=ft.Alignment.CENTER, )
 
     Profile = ft.Container(ft.Image(src="profile.JPG"), width=200)
+   
     Back= ft.Button(content="Main Menu", on_click= mainmenu)
     Submit= ft.Button(content="Submit", on_click=submit)
 
-    Options2= ft.Row(controls=[Back, Profile, Submit], alignment= ft.MainAxisAlignment.CENTER)
 
+    PName = ft.Text(value="Full Name", size = 30, color="#12366b")
+    NameAPI =ft.TextField(label="Insert your name", color= "#000000", max_length= 50, on_submit= SaveName)
 
-    PName = ft.Text(value="Full Name", size = 20, color="#12366b")
-    NameAPI = ft.TextField(label="Insert your name", color= "#000000", max_length= 50, on_submit= SaveName)
-
-    IDNumber = ft.Text(value="ID Number", size = 20, color="#12366b")
-    IDAPI = ft.TextField(label="Insert your Passport or ID number",  color= "#000000", max_length=30, on_submit= SaveID)   
-
+    IDNumber = ft.Text(value="ID Number", size = 30, color="#12366b")
+    IDAPI = ft.TextField(label="Insert your Passport or ID number",  color= "#000000", max_length=30, on_submit= SaveID)
     divide = ft.Container(bgcolor="#000000", height=500, width=2)
 
-    column1 = ft.Column(controls=[ Title,
+    column1 = ft.Column(controls=[ Profile,
         ft.Container(height=10),
         PName, NameAPI,
         ft.Container(height=10),
@@ -121,9 +117,9 @@ def main(page: ft.Page):
     
     #2
 
-    
     count= requests.get("https://restcountries.com/v3.1/all?fields=name,cca2")
     cdata =count.json()
+
 
     Plan = ft.Text(value="Plan your trip", size = 30, color="#12366b")
     PlanAPI = ft.Dropdown(
@@ -132,7 +128,7 @@ def main(page: ft.Page):
         options = [ft.dropdown.Option(key=c["cca2"], text=c["name"]["common"]) for c in cdata],
         on_select= Drop, text_style= ft.TextStyle( color="#516a8f" )
     )
-    
+
     Durration = ft.Text(value="Set Duration", size = 20, color="#12366b")
     DurrationAPI = ft.Button(content="Departure", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(d))
     Duration2 = ft.Button(content="Return", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(de), visible=False)
@@ -142,8 +138,10 @@ def main(page: ft.Page):
     controls=[
         Plan, PlanAPI,
         ft.Container(height=50),
-        Durration, DurrationAPI, Duration2,Reset2,
+        Durration, DurrationAPI, Duration2, Reset2,
         ft.Container(height=50),
+        
+        
     ]
 )
     
@@ -158,29 +156,57 @@ def main(page: ft.Page):
     controls=[
         Depart, DepartAPI,
         ft.Container(height=50),
-        Arrive, ArriveAPI
+        Arrive, ArriveAPI,
+        ft.Container(height=50),
     ]
 )
     
     Notes = ft.Text(value="Notes", size = 30, color="#12366b")
     NotesAPI = ft.TextField(label="Any more details", color= "#000000", multiline= True, max_length= 750, width=225, text_size=12, on_submit=SaveNotes)
 
+    Visits = ft.Text(value="Cost Estimation", size = 30, color="#12366b")
+    VisitsAPI = ft.Text(value=f"", size = 20, color= "#000000")
+
+
+    buttonVisits = ft.Button(content="Total Visit", 
+                             width=100, 
+                             height=50, 
+                             bgcolor="#12366b", 
+                             color="#FFFFFF", 
+                             )
+
     column4 = ft.Column(
         controls=[
             Notes, NotesAPI,
-            ft.Container(height=50),
+            ft.Container(height=15),
+            Visits, VisitsAPI,
+            ft.Container(height=175),
+        ft.Row(controls=[Back, Submit])
         ],
         alignment=ft.MainAxisAlignment.START
-
     )
 
     wContainer = ft.Container(content=ft.Row(
-            controls=[column1, divide, column4, column2, column3], alignment=ft.MainAxisAlignment.SPACE_EVENLY), 
+            controls=[column1, divide, column2, column3, column4], alignment=ft.MainAxisAlignment.SPACE_EVENLY), 
             height=525, 
             width = 1250, 
             bgcolor="#FFFFFF", 
             border_radius=10,
             padding=50,align=ft.Alignment.BOTTOM_CENTER)
+    
+    #space
+    space = ft.Container(height=10)
+    
+    #Main container
+    blueCont = ft.Container(content=ft.Column(
+        controls=[space, wContainer],
+        spacing=20),
+            height=700, 
+            width = 1350, 
+            bgcolor="#12366b",
+            border_radius=10, align=ft.Alignment.BOTTOM_CENTER)
+    
+    Whole_page= ft.Column(controls=[Title, blueCont])
 
-    page.add(wContainer, Options2)
-ft.run(main, assets_dir="assets")
+    page.add(Whole_page)
+ft.run(main)
