@@ -2,6 +2,7 @@ import flet as ft
 import requests 
 import os
 import subprocess
+import sys
 
 
 def main(page: ft.Page):
@@ -10,12 +11,14 @@ def main(page: ft.Page):
     def countrysearch(e):
         secondpath= os.path.join(os.path.dirname(__file__), "secondpage.py")
         subprocess.Popen(["python", secondpath])
-        page.window.close()
+        page.update()
+        sys.exit(0)
     
     def bookatrip(e):
         thirdpath= os.path.join(os.path.dirname(__file__), "thirdpage.py")
         subprocess.Popen(["python", thirdpath])
-        page.window.close()
+        page.update()
+        sys.exit(0)
         
     #fonts
     page.fonts = {

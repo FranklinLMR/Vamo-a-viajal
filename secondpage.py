@@ -2,6 +2,7 @@ import flet as ft
 import requests
 import subprocess
 import os
+import sys
 import asyncio
 
 #Trying to PUT AN API OF VISAS< IM JUST GOING TO MAKE A LIST OF GENERAL CONTINENTAL INFORMATION
@@ -173,14 +174,15 @@ def main(page: ft.Page):
 
             WeatherAPI.value= "\n".join(lines)
 
-        elif e.control.value == "return":
+        elif e.control.value == "menu":
             search.bar_hint_text= "Returning to main menu..."
             e.control.value= ""
             page.update()
             await asyncio.sleep(2)
             secondpath= os.path.join(os.path.dirname(__file__), "main.py")
             subprocess.Popen(["python", secondpath])
-            page.window.close()
+            page.update()
+            sys.exit(0)
 
         else:
                 

@@ -3,6 +3,7 @@ import datetime
 import requests
 import subprocess
 import os 
+import sys
 
 
 def main(page: ft.Page):
@@ -24,7 +25,9 @@ def main(page: ft.Page):
     def mainmenu(e):
         secondpath= os.path.join(os.path.dirname(__file__), "main.py")
         subprocess.Popen(["python", secondpath])
-        page.window.close()
+        page.update()
+        sys.exit(0)
+        
 
     def SaveName(e):
         
