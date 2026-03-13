@@ -18,15 +18,15 @@ def main(page: ft.Page):
 
     Profile = ft.Container(ft.Image(src="profile.JPG"), width=200)
 
-    PName = ft.Text(value="Full Name", size = 20, color="#12366b")
-    NameAPI = ft.Text(value="Lorem Ipsum", size = 15, color= "#000000")
+    PName = ft.Text(value="Full Name", size = 30, color="#12366b")
+    NameAPI = ft.Text(value="Lorem Ipsum", size = 20, color= "#000000")
 
-    IDNumber = ft.Text(value="ID Number", size = 20, color="#12366b")
-    IDAPI = ft.Text(value="Lorem Ipsum", size = 15, color= "#000000")   
+    IDNumber = ft.Text(value="ID Number", size = 30, color="#12366b")
+    IDAPI = ft.Text(value="Lorem Ipsum", size = 20, color= "#000000")   
 
     divide = ft.Container(bgcolor="#000000", height=500, width=2)
 
-    column1 = ft.Column(controls=[ Title,
+    column1 = ft.Column(controls=[ Profile,
         ft.Container(height=10),
         PName, NameAPI,
         ft.Container(height=10),
@@ -39,8 +39,8 @@ def main(page: ft.Page):
     Plan = ft.Text(value="Plan your trip", size = 30, color="#12366b")
     PlanAPI = ft.Text(value="Lorem Ipsum", size = 20, color= "#000000")
 
-    Durration = ft.Text(value="Duration", size = 20, color="#12366b")
-    DurrationAPI = ft.Text(value="Lorem Ipsum", size = 15, color= "#000000")
+    Durration = ft.Text(value="Planned Duration", size = 30, color="#12366b")
+    DurrationAPI = ft.Text(value="Lorem Ipsum", size = 20, color= "#000000")
 
     column2 = ft.Column(
     controls=[
@@ -69,22 +69,46 @@ def main(page: ft.Page):
     Notes = ft.Text(value="Notes", size = 30, color="#12366b")
     NotesAPI = ft.Text(value="Lorem Ipsum", size = 20, color= "#000000")
 
+    Visits = ft.Text(value="Planned Visits", size = 30, color="#12366b")
+    VisitsAPI = ft.Text(value="Lorem Ipsum", size = 20, color= "#000000")
+
+    buttonVisits = ft.Button(text="Total Visit", 
+                             width=100, 
+                             height=50, 
+                             bgcolor="#12366b", 
+                             color="#FFFFFF", 
+                             )
+
     column4 = ft.Column(
         controls=[
             Notes, NotesAPI,
-            ft.Container(height=50),
+            ft.Container(height=15),
+            Visits, VisitsAPI
         ],
         alignment=ft.MainAxisAlignment.START
-
     )
 
     wContainer = ft.Container(content=ft.Row(
-            controls=[column1, divide, column4, column2, column3], alignment=ft.MainAxisAlignment.SPACE_EVENLY), 
+            controls=[column1, divide, column2, column3, column4], alignment=ft.MainAxisAlignment.SPACE_EVENLY), 
             height=525, 
             width = 1250, 
             bgcolor="#FFFFFF", 
             border_radius=10,
             padding=50,align=ft.Alignment.BOTTOM_CENTER)
+    
+    #space
+    space = ft.Container(height=10)
+    
+    #Main container
+    blueCont = ft.Container(content=ft.Column(
+        controls=[space, wContainer],
+        spacing=20),
+            height=700, 
+            width = 1350, 
+            bgcolor="#12366b",
+            border_radius=10, align=ft.Alignment.BOTTOM_CENTER)
+    
+    Whole_page= ft.Column(controls=[Title, blueCont])
 
-    page.add(wContainer, Profile)
+    page.add(Whole_page)
 ft.run(main)
