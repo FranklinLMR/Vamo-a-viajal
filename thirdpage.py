@@ -87,4 +87,4 @@ def main(page: ft.Page):
             padding=50,align=ft.Alignment.BOTTOM_CENTER)
 
     page.add(wContainer, Profile)
-ft.run(main)
+ft.run(main, assets_dir="assets")

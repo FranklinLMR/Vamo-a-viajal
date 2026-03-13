@@ -13,7 +13,10 @@ def main(page: ft.Page):
         page.window.close()
     
     def bookatrip(e):
-        pass
+        thirdpath= os.path.join(os.path.dirname(__file__), "thirdpage.py")
+        subprocess.Popen(["python", thirdpath])
+        page.window.close()
+        
     #fonts
     page.fonts = {
         "Main": "fredoka-latin-700-normal.ttf"
