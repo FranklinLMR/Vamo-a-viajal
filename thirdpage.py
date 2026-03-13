@@ -132,7 +132,7 @@ def main(page: ft.Page):
         options = [ft.dropdown.Option(key=c["cca2"], text=c["name"]["common"]) for c in cdata],
         on_select= Drop, text_style= ft.TextStyle( color="#516a8f" )
     )
-
+    
     Durration = ft.Text(value="Set Duration", size = 20, color="#12366b")
     DurrationAPI = ft.Button(content="Departure", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(d))
     Duration2 = ft.Button(content="Return", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(de), visible=False)
