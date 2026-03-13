@@ -17,9 +17,12 @@ def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.bgcolor = "#f3f7ff"
     page.update()
-    
+    count= requests.get("https://restcountries.com/v3.1/all?fields=name,cca2,subregion")
+    cdata =count.json()
+
+
     DataUser=["","","",""]
-    Costs=["",""]
+    Costs=0
     def mainmenu(e):
         secondpath= os.path.join(os.path.dirname(__file__), "main.py")
         subprocess.Popen(["python", secondpath])
@@ -50,47 +53,32 @@ def main(page: ft.Page):
             for f in range(10):
                     print("Error, Missing data")
 
-    def handle_change(e: ft.Event[ft.DatePicker]):
-        l= int(e.control.value.strftime("%d"))
-        m= int(e.control.value.strftime("%m"))
-        Costs[0] =l
-        print(m)
-        de.first_date = datetime.datetime(year=today.year, month=m, day=l+1) 
-        DepartAPI.value=f"{e.control.value.strftime('%m/%d/%Y')}"
-        Duration2.visible=True
-        DurrationAPI.visible=False
-        page.update()
+    def handle_change(e: ft.Event[ft.DateRangePicker]):
+        
+        DepartAPI.value = e.control.start_value.strftime('%m/%d/%Y')
+        ArriveAPI.value = e.control.end_value.strftime('%m/%d/%Y')
+        start = e.control.start_value   
+        end = e.control.end_value   
 
-    def handle_change2(e: ft.Event[ft.DatePicker]):
-        ArriveAPI.value=f"{e.control.value.strftime('%m/%d/%Y')}"
-        Costs[1] = int(e.control.value.strftime("%d"))
-        Reset2.visible = True
+        print(end.date())
+        days= (end.date()- start.date()).days+1   #I got help from AI for this
+        if DataUser[3] !="":
+            Costs= days*CountryRate
+        
+        
+        
         page.update()
     
-    def resett(e):
-        d.first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1)
-        de. first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1)
-        Duration2.visible=False
-        DurrationAPI.visible=True
-        ArriveAPI.value=""
-        DepartAPI.value=""
-        page.update()
 
     def Drop(e):
-        e.control.value
         DataUser[3]=e.control.value
 
     today = datetime.datetime.now()
 
-    d = ft.DatePicker(
+    drp= ft.DateRangePicker(
         first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1),
-        last_date=datetime.datetime(year=today.year, month=today.month+2    , day=20),
+        last_date=datetime.datetime(year=today.year, month=today.month+6, day=20),
         on_change=handle_change
-    )
-    de = ft.DatePicker(
-        first_date=datetime.datetime(year=today.year, month=today.month, day=today.day+1),
-        last_date=datetime.datetime(year=today.year, month=today.month+2, day=20),
-        on_change=handle_change2
     )
     Title = ft.Text("Book a flight! ", size=80, color="#12366b", align=ft.Alignment.CENTER, )
 
@@ -117,8 +105,7 @@ def main(page: ft.Page):
     
     #2
 
-    count= requests.get("https://restcountries.com/v3.1/all?fields=name,cca2")
-    cdata =count.json()
+  
 
 
     Plan = ft.Text(value="Plan your trip", size = 30, color="#12366b")
@@ -130,15 +117,13 @@ def main(page: ft.Page):
     )
 
     Durration = ft.Text(value="Set Duration", size = 20, color="#12366b")
-    DurrationAPI = ft.Button(content="Departure", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(d))
-    Duration2 = ft.Button(content="Return", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(de), visible=False)
-    Reset2= ft.Button(content="Reset", color= "#D7E7F7", bgcolor= "#154275", on_click=resett, visible=False)
+    DurrationAPI = ft.Button(content="Departure", color= "#D7E7F7", bgcolor= "#154275", on_click=lambda e: page.show_dialog(drp))
     
     column2 = ft.Column(
     controls=[
         Plan, PlanAPI,
         ft.Container(height=50),
-        Durration, DurrationAPI, Duration2, Reset2,
+        Durration, DurrationAPI,
         ft.Container(height=50),
         
         

@@ -18,7 +18,7 @@ def main(page: ft.Page):
         thirdpath= os.path.join(os.path.dirname(__file__), "thirdpage.py")
         subprocess.Popen(["python", thirdpath])
         page.update()
-        sys.exit(0)
+            
         
     #fonts
     page.fonts = {
